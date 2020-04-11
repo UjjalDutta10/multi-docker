@@ -9,10 +9,10 @@ script:
   - docker run ujjaldutta10/react-test npm test -- --coverage
 
 after_success:
-  - docker run -t ujjaldutta10/multi-client ./client
-  - docker run -t ujjaldutta10/multi-nginx ./nginx
-  - docker run -t ujjaldutta10/multi-server ./server
-  - docker run -t ujjaldutta10/multi-worker ./worker 
+  - docker build -t ujjaldutta10/multi-client ./client
+  - docker build -t ujjaldutta10/multi-nginx ./nginx
+  - docker build -t ujjaldutta10/multi-server ./server
+  - docker build -t ujjaldutta10/multi-worker ./worker 
 
 #Login into Docker cli to push prod images
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" 
