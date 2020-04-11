@@ -1,0 +1,21 @@
+sudo: required
+services:
+  -  docker
+
+before_install: 
+  - docker build -t ujjaldutta10/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run ujjaldutta10/react-test npm test -- --coverage
+
+after_success:
+  - docker run -t ujjaldutta10/multi-client ./client
+  - docker run -t ujjaldutta10/multi-nginx ./nginx
+  - docker run -t ujjaldutta10/multi-server ./server
+  - docker run -t ujjaldutta10/multi-worker ./worker 
+
+#Login into Docker cli to push prod images
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" 
+
+#Push prod images to docker hub
+  - docker push UjjalDutta10/multi-client
